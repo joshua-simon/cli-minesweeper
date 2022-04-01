@@ -44,7 +44,7 @@ const randomNumbers = () => {
       let y = coordinates[i][1];
       board[x][y] = ["💣"];
     }
-    console.log(board);
+    return board
   };
 
   export const board = createBoard()
