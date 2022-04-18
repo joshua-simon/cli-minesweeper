@@ -42,7 +42,7 @@ const randomNumbers = () => {
     for (let i = 0; i < coordinates.length; i++) {
       let x = coordinates[i][0];
       let y = coordinates[i][1];
-      board[x][y] = ["💣"];
+      board[x][y] = ['💣'];
     }
     return board
   };
