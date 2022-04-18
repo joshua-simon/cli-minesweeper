@@ -37,7 +37,18 @@ const assignNumbers =  () => {
         if(!isRightEdge  && board[i][j+1].toString() === '💣') newTotal++
         //check square to left
         if([j]>0 && board[i][j-1].toString() === '💣') newTotal++
-        
+        //check square to north-west
+        if([j]>0 && [i]>0 && board[i-1][j-1].toString() === '💣') newTotal++
+        //check square to north-east
+        if(!isRightEdge && [i]>0 && board[i-1][j+1].toString() === '💣') newTotal++
+        //check square to south-west
+        if([j]>0 && [i]<9 && board[i+1][j-1].toString() === '💣') newTotal++
+        //check square to south-east
+        if(!isRightEdge && [i]<9 && board[i+1][j+1].toString() === '💣') newTotal++
+        //check square to north
+        if([i]>0 && board[i-1][j].toString() === '💣') newTotal++
+        //check square to the south
+        if([i]<9 && board[i+1][j].toString() === '💣') newTotal++
         board[i][j] = newTotal
       }
     }
