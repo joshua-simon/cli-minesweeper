@@ -47,4 +47,16 @@ const randomNumbers = () => {
     return board
   };
 
+  const createPlayerBoard = () => {
+    let playerBoard = [];
+    for (let i = 0; i < 10; i++) {
+      playerBoard[i] = [];
+      for (let j = 0; j < 10; j++) {
+        playerBoard[i][j] = '⬜';
+      }
+    }
+    return playerBoard
+  }
+
   export const board = createBoard()
+  export const playerBoard = createPlayerBoard()

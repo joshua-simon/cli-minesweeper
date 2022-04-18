@@ -1,27 +1,5 @@
-import { board } from './createBoard.js'
+import { board,playerBoard } from './createBoard.js'
 import inquirer from 'inquirer'
-
-const getCoordinates = () => {
-    const question = [
-        {
-          type: "input",
-          name: "x-coordinate",
-          message: "Please enter the first of two coordinates (any number from 0 up to 7)",
-        },
-        {
-          type: "input",
-          name: "y-coordinate",
-          message: "Please enter the last coordinate (any number from 0 up to 7)",
-        },
-      ];
-      let xCoordinate;
-      let yCoordinate;
-
-      inquirer.prompt(question).then(answers => {
-        xCoordinate = answers["x-coordinate"];
-        yCoordinate = answers["y-coordinate"];
-      })
-}
 
 
 
@@ -53,7 +31,59 @@ const assignNumbers =  () => {
       }
     }
   }
- console.log(board)
+ return board
 }
 
-assignNumbers()
+const updatePlayerBoard = (x,y,type) => {
+  if(type = 'hit'){
+    for(let i=0; i<playerBoard.length; i++){
+      playerBoard[x][y] = '💥'
+    }
+  }
+  console.log(playerBoard)
+}
+
+
+const play = (x,y,board) => {
+  const resultType = ['hit','number-sqaure','blank-square']
+
+  for(let i=0; i<board.length; i++){
+    if(board[x][y].toString() === '💣' ){
+      updatePlayerBoard(x,y,resultType[0])
+      console.log('Game over!')
+      process.exit(1);
+    }
+  }
+
+}
+
+const getCoordinates = () => {
+    const question = [
+        {
+          type: "input",
+          name: "x-coordinate",
+          message: "Please enter the first of two coordinates (any number from 0 up to 9)",
+        },
+        {
+          type: "input",
+          name: "y-coordinate",
+          message: "Please enter the last coordinate (any number from 0 up to 9)",
+        },
+      ];
+      let xCoordinate;
+      let yCoordinate;
+
+      inquirer.prompt(question).then(answers => {
+        xCoordinate = answers["x-coordinate"];
+        yCoordinate = answers["y-coordinate"];
+      })
+      
+      const newBoard = assignNumbers()
+
+      if(xCoordinate && yCoordinate){
+        play(xCoordinate,yCoordinate,newBoard)
+      }
+}
+
+
+await getCoordinates()
