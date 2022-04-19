@@ -31,33 +31,37 @@ const assignNumbers =  () => {
       }
     }
   }
- return board
+
 }
 
+assignNumbers()
+
+
 const updatePlayerBoard = (x,y,type) => {
-  if(type = 'hit'){
-    for(let i=0; i<playerBoard.length; i++){
+  if(type === 'hit'){
       playerBoard[x][y] = '💥'
-    }
+  }else if( type === 'number-square'){
+    playerBoard[x][y] = board[x][y].toString()
   }
   console.log(playerBoard)
+  getCoordinates()
 }
+
 
 
 const play = (x,y,board) => {
-  const resultType = ['hit','number-sqaure','blank-square']
-
-  for(let i=0; i<board.length; i++){
+  const resultType = ['hit','number-square','blank-square']
     if(board[x][y].toString() === '💣' ){
       updatePlayerBoard(x,y,resultType[0])
       console.log('Game over!')
       process.exit(1);
+    }else if(board[x][y] !== 0 && board[x][y].toString !== '💣'){
+      updatePlayerBoard(x,y,resultType[1])
     }
-  }
-
 }
 
-const getCoordinates = () => {
+
+const getCoordinates = async () => {
     const question = [
         {
           type: "input",
@@ -76,14 +80,14 @@ const getCoordinates = () => {
       inquirer.prompt(question).then(answers => {
         xCoordinate = answers["x-coordinate"];
         yCoordinate = answers["y-coordinate"];
+      
+        play(xCoordinate,yCoordinate,board)
       })
       
-      const newBoard = assignNumbers()
 
-      if(xCoordinate && yCoordinate){
-        play(xCoordinate,yCoordinate,newBoard)
-      }
 }
 
-
+console.log(board)
 await getCoordinates()
+
+
