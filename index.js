@@ -9,23 +9,16 @@ const assignNumbers =  () => {
        
         let newTotal = 0
         const isRightEdge = [j]/9 === 1
-        const isLeftEdge = [j] === 0
-         //check square to right
+
         if(!isRightEdge  && board[i][j+1].toString() === '💣') newTotal++
-        //check square to left
         if([j]>0 && board[i][j-1].toString() === '💣') newTotal++
-        //check square to north-west
         if([j]>0 && [i]>0 && board[i-1][j-1].toString() === '💣') newTotal++
-        //check square to north-east
         if(!isRightEdge && [i]>0 && board[i-1][j+1].toString() === '💣') newTotal++
-        //check square to south-west
         if([j]>0 && [i]<9 && board[i+1][j-1].toString() === '💣') newTotal++
-        //check square to south-east
         if(!isRightEdge && [i]<9 && board[i+1][j+1].toString() === '💣') newTotal++
-        //check square to north
         if([i]>0 && board[i-1][j].toString() === '💣') newTotal++
-        //check square to the south
         if([i]<9 && board[i+1][j].toString() === '💣') newTotal++
+
         board[i][j] = newTotal
       }
     }
@@ -36,43 +29,68 @@ const assignNumbers =  () => {
 assignNumbers()
 
 
-const updatePlayerBoard = (x, y, type) => {
-  if (type === "hit") {
-    playerBoard[x][y] = "💥";
-  } else if (type === "number-square") {
-    playerBoard[x][y] = board[x][y].toString();
-    console.log(playerBoard);
-    getCoordinates();
-  } else if (type === "blank-square"){
-    playerBoard[x][y] = '⬛'
-  }
-};
+// const updatePlayerBoard = (x, y, type) => {
+//   if (type === "hit") {
+//     playerBoard[x][y] = "💥";
+//   } else if (type === "number-square") {
+//     playerBoard[x][y] = board[x][y].toString();
+//     console.log(playerBoard);
+//     getCoordinates();
+//   } else if (type === "blank-square"){
+//     playerBoard[x][y] = '⬛'
+//   }
+// };
 
 const checkSquares = (x,y,board) => {
-  //check all surrounding squares
 
-  //extract square to west
-  // console.log(board[x][y])  x,y outputs coordinates, board[x][y] outputs board element at coordinate
-  
-  if(y>0 && board[x][y].toString() !=="💣" ){
-    //NOTE: An element assigned a zero total will *never* be next to a bomb
-     const coords = [x, y-1]
-     play(coords[0],coords[1],board)
+     if(y>0) play(x,y-1,board)
+      if (y<9) {
+        const total = parseInt(y)+1
+        play(x,total,board)
+      }
+
+     if(x>0 && y>0) play(x-1,y-1,board)
+
+     if(x>0) play(x-1,y,board)
+
+    if(x<9){
+      const total = parseInt(x)+1
+      play(total,y,board)
     }
-    console.log(playerBoard)
 
+    if(y>0 && x<9){
+      const total = parseInt(x)+1
+      play(total,y-1,board)
+    }
+
+    if(x<9 && y<9){
+      const xTotal = parseInt(x)+1
+      const yTotal = parseInt(y)+ 1
+      play(xTotal,yTotal,board)
+    }
+
+    if(x>0 && y<9){
+      const total = parseInt(y)+1
+      play(x-1,total,board)
+    }
+
+   console.log(board)
 }
 
 const play = (x, y, board) => {
-  const resultType = ["hit", "number-square", "blank-square"];
-  if (board[x][y].toString() === "💣") {
-    updatePlayerBoard(x, y, resultType[0]);
-    console.log("Game over!");
-    process.exit(1);
-  } else if (board[x][y] !== 0 && board[x][y].toString !== "💣") {
-    updatePlayerBoard(x, y, resultType[1]);
-  } else if(board[x][y] === 0){
-    updatePlayerBoard(x, y, resultType[2]);
+  // const resultType = ["hit", "number-square", "blank-square"];
+  // if(board[x][y] === '✅') return
+  // if (board[x][y].toString() === "💣") {
+    // updatePlayerBoard(x, y, resultType[0]);
+    // console.log("Game over!");
+    // process.exit(1);}
+  //  if (board[x][y] !== 0 && board[x][y].toString !== "💣") {
+    // updatePlayerBoard(x, y, resultType[1]);
+    // return} 
+if(board[x][y] === 0){
+    // updatePlayerBoard(x, y, resultType[2]);
+    board[x][y] = '✅'
+    console.log(` play coordinates:  x: ${x} y: ${y}`)
     checkSquares(x,y,board)
   }
 };
