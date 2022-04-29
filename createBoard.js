@@ -27,7 +27,7 @@ const randomNumbers = () => {
     return coordinates;
   };
   
-  const coordinates = getCoordinates()
+  export const coordinates = getCoordinates()
   
   
   const createBoard = () => {
